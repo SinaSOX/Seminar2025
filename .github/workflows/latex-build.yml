@@ -14,24 +14,21 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Setup TeX Live
-      uses: xu-cheng/latex-action@v3
-      with:
-        root_file: seminar.tex
-        latexmk_use_xelatex: true
-        work_in_root_file_dir: true
-        latexmk_shell_escape: true
-        extra_system_packages: |
-          fonts-b-nazanin
-          fonts-xb-royale
-          fonts-b-titr
-          fonts-b-mitra
-          texlive-fonts-extra
-          texlive-lang-arabic
-        pre_compile: |
-          # Update font cache
-          fc-cache -fv
-          
+    - name: Install TeX Live
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y texlive-full texlive-fonts-extra texlive-lang-arabic texlive-xetex latexmk
+        
+    - name: Install Persian fonts
+      run: |
+        sudo apt-get install -y fonts-b-nazanin fonts-xb-royale fonts-b-titr fonts-b-mitra
+        sudo fc-cache -fv
+        
+    - name: Compile document
+      run: |
+        export CI=true
+        ./scripts/compile.sh
+        
     - name: Upload PDF artifact
       uses: actions/upload-artifact@v4
       with:
@@ -53,33 +50,3 @@ jobs:
           *.lot
           *.fls
           *.fdb_latexmk
-
-  # Alternative build using custom script
-  build-custom:
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Install TeX Live
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y texlive-full texlive-fonts-extra texlive-lang-arabic texlive-xetex latexmk
-        
-    - name: Install Persian fonts
-      run: |
-        sudo apt-get install -y fonts-b-nazanin fonts-xb-royale fonts-b-titr fonts-b-mitra
-        sudo fc-cache -fv
-        
-    - name: Compile document
-      run: |
-        export CI=true
-        ./scripts/compile.sh
-        
-    - name: Upload PDF artifact (custom build)
-      uses: actions/upload-artifact@v4
-      with:
-        name: seminar-pdf-custom
-        path: seminar.pdf
