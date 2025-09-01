@@ -1,0 +1,51 @@
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.ent
+*.synctex.gz
+*.synctex(busy)
+*.synctex.gz(busy)
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Backup files
+*.bak
+*.backup
+*.~bak
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts (keep PDF for convenience)
+# *.pdf
+
+# Font cache
+fonts.cache-1
+fonts.cache-2
+
+# Package manager files
+*.sty.backup
+*.cls.backup

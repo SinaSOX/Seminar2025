@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  latex-compiler:
+    build: .
+    volumes:
+      # Mount current directory to workspace
+      - .:/workspace
+      # Mount fonts directory for better font support
+      - /usr/share/fonts:/usr/share/fonts:ro
+    environment:
+      - CI=false
+    command: make all
+    
+  latex-watch:
+    build: .
+    volumes:
+      - .:/workspace
+      - /usr/share/fonts:/usr/share/fonts:ro
+    environment:
+      - CI=false
+    command: make watch
+    profiles:
+      - watch
+      
+  latex-clean:
+    build: .
+    volumes:
+      - .:/workspace
+    command: make clean
+    profiles:
+      - clean
+      
+  latex-distclean:
+    build: .
+    volumes:
+      - .:/workspace
+    command: make distclean
+    profiles:
+      - distclean
